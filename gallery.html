@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gallery — Talha Zobair</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1rem; margin-top: 2rem;
+    }
+    .gallery-item {
+      aspect-ratio: 1; border-radius: var(--radius);
+      overflow: hidden; background: var(--surface);
+      border: 1px solid var(--border);
+      transition: transform 0.25s, border-color 0.2s;
+      cursor: pointer;
+    }
+    .gallery-item:hover { transform: scale(1.03); border-color: var(--accent); }
+    .gallery-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .gallery-placeholder {
+      width: 100%; height: 100%;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      background: var(--accent-light); gap: 8px;
+    }
+    .gallery-placeholder span { font-size: 1.5rem; }
+    .gallery-placeholder p { font-size: 0.75rem; color: var(--accent); font-weight: 500; }
+
+    /* LIGHTBOX */
+    .lightbox {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.85); z-index: 500;
+      align-items: center; justify-content: center; padding: 2rem;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox img { max-width: 90vw; max-height: 85vh; border-radius: var(--radius); }
+    .lightbox-close {
+      position: absolute; top: 1.5rem; right: 1.5rem;
+      background: none; border: none; color: white;
+      font-size: 1.5rem; cursor: pointer; padding: 4px;
+    }
+
+    /* PROFILE section */
+    .profile-section {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 2rem;
+      margin-top: 2rem; display: flex;
+      align-items: center; gap: 1.5rem; flex-wrap: wrap;
+    }
+    .profile-initials {
+      width: 90px; height: 90px; border-radius: 50%;
+      background: var(--accent-light); flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.8rem; color: var(--accent);
+    }
+    .profile-section-text h3 { font-size: 1rem; font-weight: 500; margin-bottom: 4px; }
+    .profile-section-text p { font-size: 0.875rem; color: var(--muted); max-width: 380px; }
+    .how-to {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.5rem;
+      margin-top: 1rem;
+    }
+    .how-to h4 { font-size: 0.8rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.75rem; }
+    .how-to ol { padding-left: 1.25rem; font-size: 0.875rem; color: var(--text); line-height: 2; }
+    .how-to code {
+      background: var(--accent-light); color: var(--accent);
+      padding: 1px 6px; border-radius: 4px; font-size: 0.8rem;
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo">Talha Zobair</a>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="projects.html">Projects</a></li>
+      <li><a href="gallery.html" class="active">Gallery</a></li>
+      <li><a href="resume.html">Resume</a></li>
+    </ul>
+    <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="page-transition" id="page-transition"></div>
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox-close" id="lb-close">✕</button>
+    <img src="" id="lb-img" alt="Photo"/>
+  </div>
+
+  <main class="fade-in">
+
+    <div class="page-hero">
+      <p class="section-label">Gallery</p>
+      <h1>Photos &<br><em>moments.</em></h1>
+      <p>A visual snapshot of my world — places, projects, and things I find interesting.</p>
+    </div>
+
+    <section style="border-top: 1px solid var(--border); padding-top: 3rem;">
+
+      <!-- Profile photo section -->
+      <p class="section-label">Profile photo</p>
+      <div class="profile-section">
+        <!-- REPLACE the div below with: <img src="images/me.jpg" class="profile-photo" alt="Talha"> -->
+        <div class="profile-initials">TZ</div>
+        <div class="profile-section-text">
+          <h3>Add your photo here</h3>
+          <p>Upload a photo of yourself and replace the initials placeholder. See instructions below.</p>
+        </div>
+      </div>
+
+      <div class="how-to reveal">
+        <h4>How to add your photo</h4>
+        <ol>
+          <li>Create a folder called <code>images</code> in your GitHub repo</li>
+          <li>Upload your photo there, e.g. <code>me.jpg</code></li>
+          <li>In this file, replace the <code>&lt;div class="profile-initials"&gt;</code> with:<br>
+            <code>&lt;img src="images/me.jpg" class="profile-photo" alt="Talha"&gt;</code>
+          </li>
+          <li>For gallery photos, add <code>&lt;img&gt;</code> tags inside the gallery grid below</li>
+        </ol>
+      </div>
+    </section>
+
+    <section style="border-top: 1px solid var(--border); padding-top: 3rem;">
+      <p class="section-label">Gallery</p>
+      <h2>My photos.</h2>
+
+      <div class="gallery-grid">
+        <!-- Add your own images like this:
+          <div class="gallery-item reveal" onclick="openLightbox('images/photo1.jpg')">
+            <img src="images/photo1.jpg" alt="Description">
+          </div>
+        -->
+        <div class="gallery-item reveal">
+          <div class="gallery-placeholder"><span>📷</span><p>Add photo</p></div>
+        </div>
+        <div class="gallery-item reveal">
+          <div class="gallery-placeholder"><span>📷</span><p>Add photo</p></div>
+        </div>
+        <div class="gallery-item reveal">
+          <div class="gallery-placeholder"><span>📷</span><p>Add photo</p></div>
+        </div>
+        <div class="gallery-item reveal">
+          <div class="gallery-placeholder"><span>📷</span><p>Add photo</p></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <span>© 2025 Talha Zobair</span>
+    <span>Built with HTML & GitHub Pages</span>
+  </footer>
+
+  <script src="main.js"></script>
+  <script>
+    function openLightbox(src) {
+      document.getElementById('lb-img').src = src;
+      document.getElementById('lightbox').classList.add('open');
+    }
+    document.getElementById('lb-close').addEventListener('click', () => {
+      document.getElementById('lightbox').classList.remove('open');
+    });
+    document.getElementById('lightbox').addEventListener('click', function(e) {
+      if (e.target === this) this.classList.remove('open');
+    });
+  </script>
+</body>
+</html>
