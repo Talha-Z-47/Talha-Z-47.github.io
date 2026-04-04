@@ -79,8 +79,22 @@ nav {
 .nav-links a:hover, .nav-links a.active { color: var(--text); }
 .nav-links a.active::after, .nav-links a:hover::after { width: 100%; }
 
-/* HERO */
-.hero {
+/* HERO AVATAR */
+.hero-avatar {
+  width: 80px; height: 80px; border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--accent-light);
+  margin-bottom: 1.25rem;
+  display: block;
+}
+.hero-avatar-placeholder {
+  background: var(--accent-light);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.5rem; color: var(--accent);
+}
+
+/* HERO TAG */
   max-width: 760px; margin: 0 auto;
   padding: 7rem 2rem 5rem;
 }
