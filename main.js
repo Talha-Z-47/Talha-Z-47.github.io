@@ -3,26 +3,22 @@ document.getElementById('menu-toggle').addEventListener('click', function () {
   document.getElementById('nav-links').classList.toggle('open');
 });
 
-// Smooth page transitions on internal links
+// Simple fade transition between pages
 document.querySelectorAll('a[href]').forEach(link => {
   const href = link.getAttribute('href');
   if (!href || href.startsWith('#') || href.startsWith('http') || href.startsWith('mailto')) return;
   link.addEventListener('click', function (e) {
     e.preventDefault();
     const overlay = document.getElementById('page-transition');
-    overlay.classList.add('slide-in');
-    setTimeout(() => { window.location.href = href; }, 350);
+    overlay.classList.add('fading');
+    setTimeout(() => { window.location.href = href; }, 220);
   });
 });
 
-// Slide out overlay on page load
+// Fade overlay out on arrival
 window.addEventListener('pageshow', () => {
   const overlay = document.getElementById('page-transition');
-  if (overlay) {
-    overlay.classList.remove('slide-in');
-    overlay.classList.add('slide-out');
-    setTimeout(() => overlay.classList.remove('slide-out'), 350);
-  }
+  if (overlay) overlay.classList.remove('fading');
 });
 
 // Scroll reveal
