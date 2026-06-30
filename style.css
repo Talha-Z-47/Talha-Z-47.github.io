@@ -11,6 +11,37 @@
   --radius: 10px;
 }
 
+[data-theme="dark"] {
+  --bg: #15171a;
+  --surface: #1d2024;
+  --text: #f0efec;
+  --muted: #9a9a93;
+  --accent: #5fae7f;
+  --accent-light: #213027;
+  --border: #2c2f34;
+}
+
+body { transition: background-color 0.3s ease, color 0.3s ease; }
+.nav-logo, h2, .hero-text h1, .page-hero h1, .project-card h3,
+.resume-section h3, .about-card, .skill-item, .project-card,
+.contact-inner, nav { transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease; }
+
+/* THEME TOGGLE BUTTON */
+.theme-toggle {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  width: 36px; height: 36px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  font-size: 16px;
+  margin-left: 1.25rem;
+  flex-shrink: 0;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.theme-toggle:hover { border-color: var(--accent); transform: rotate(15deg); }
+.nav-right { display: flex; align-items: center; }
+
 html { scroll-behavior: smooth; }
 
 body {

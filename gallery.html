@@ -11,17 +11,23 @@
     .gallery-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 1rem; margin-top: 2rem;
+      gap: 1.25rem; margin-top: 2rem;
     }
     .gallery-item {
-      aspect-ratio: 1; border-radius: var(--radius);
-      overflow: hidden; background: var(--surface);
+      background: var(--surface);
       border: 1px solid var(--border);
-      transition: transform 0.25s, border-color 0.2s;
+      border-radius: var(--radius);
+      overflow: hidden;
       cursor: pointer;
+      transition: transform 0.25s, border-color 0.2s;
     }
-    .gallery-item:hover { transform: scale(1.03); border-color: var(--accent); }
+    .gallery-item:hover { transform: translateY(-3px); border-color: var(--accent); }
+    .gallery-item .photo-box { aspect-ratio: 1; overflow: hidden; }
     .gallery-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .gallery-caption { padding: 0.7rem 0.9rem; }
+    .gallery-caption p { font-size: 0.85rem; color: var(--text); font-weight: 500; }
+    .gallery-caption span { font-size: 0.75rem; color: var(--muted); }
+
     .gallery-placeholder {
       width: 100%; height: 100%;
       display: flex; flex-direction: column;
@@ -34,18 +40,20 @@
     /* LIGHTBOX */
     .lightbox {
       display: none; position: fixed; inset: 0;
-      background: rgba(0,0,0,0.85); z-index: 500;
+      background: rgba(0,0,0,0.88); z-index: 500;
       align-items: center; justify-content: center; padding: 2rem;
+      flex-direction: column; gap: 1rem;
     }
     .lightbox.open { display: flex; }
-    .lightbox img { max-width: 90vw; max-height: 85vh; border-radius: var(--radius); }
+    .lightbox img { max-width: 90vw; max-height: 78vh; border-radius: var(--radius); }
+    .lightbox-caption { color: white; text-align: center; font-size: 0.95rem; max-width: 600px; }
+    .lightbox-caption span { color: #aaa; font-size: 0.8rem; display: block; margin-top: 4px; }
     .lightbox-close {
       position: absolute; top: 1.5rem; right: 1.5rem;
       background: none; border: none; color: white;
       font-size: 1.5rem; cursor: pointer; padding: 4px;
     }
 
-    /* PROFILE section */
     .profile-section {
       background: var(--surface); border: 1px solid var(--border);
       border-radius: var(--radius); padding: 2rem;
@@ -63,15 +71,11 @@
     .profile-section-text p { font-size: 0.875rem; color: var(--muted); max-width: 380px; }
     .how-to {
       background: var(--surface); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 1.5rem;
-      margin-top: 1rem;
+      border-radius: var(--radius); padding: 1.5rem; margin-top: 1rem;
     }
     .how-to h4 { font-size: 0.8rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.75rem; }
     .how-to ol { padding-left: 1.25rem; font-size: 0.875rem; color: var(--text); line-height: 2; }
-    .how-to code {
-      background: var(--accent-light); color: var(--accent);
-      padding: 1px 6px; border-radius: 4px; font-size: 0.8rem;
-    }
+    .how-to code { background: var(--accent-light); color: var(--accent); padding: 1px 6px; border-radius: 4px; font-size: 0.8rem; }
   </style>
 </head>
 <body>
@@ -84,17 +88,20 @@
       <li><a href="gallery.html" class="active">Gallery</a></li>
       <li><a href="resume.html">Resume</a></li>
     </ul>
-    <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
-      <span></span><span></span><span></span>
-    </button>
+    <div class="nav-right">
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">🌙</button>
+      <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
   </nav>
 
   <div class="page-transition" id="page-transition"></div>
 
-  <!-- LIGHTBOX -->
   <div class="lightbox" id="lightbox">
     <button class="lightbox-close" id="lb-close">✕</button>
     <img src="" id="lb-img" alt="Photo"/>
+    <div class="lightbox-caption" id="lb-caption"></div>
   </div>
 
   <main class="fade-in">
@@ -106,11 +113,9 @@
     </div>
 
     <section style="border-top: 1px solid var(--border); padding-top: 3rem;">
-
-      <!-- Profile photo section -->
       <p class="section-label">Profile photo</p>
       <div class="profile-section">
-        <!-- REPLACE the div below with: <img src="images/me.jpg" class="profile-photo" alt="Talha"> -->
+        <!-- REPLACE with: <img src="images/me.jpg" class="profile-photo" alt="Talha"> -->
         <div class="profile-initials">TZ</div>
         <div class="profile-section-text">
           <h3>Add your photo here</h3>
@@ -119,14 +124,13 @@
       </div>
 
       <div class="how-to reveal">
-        <h4>How to add your photo</h4>
+        <h4>How to add gallery photos with captions</h4>
         <ol>
-          <li>Create a folder called <code>images</code> in your GitHub repo</li>
-          <li>Upload your photo there, e.g. <code>me.jpg</code></li>
-          <li>In this file, replace the <code>&lt;div class="profile-initials"&gt;</code> with:<br>
-            <code>&lt;img src="images/me.jpg" class="profile-photo" alt="Talha"&gt;</code>
-          </li>
-          <li>For gallery photos, add <code>&lt;img&gt;</code> tags inside the gallery grid below</li>
+          <li>Upload your photo to the <code>images</code> folder, e.g. <code>images/trip1.jpg</code></li>
+          <li>Copy one of the <code>.gallery-item</code> blocks below in this file</li>
+          <li>Change the <code>src</code> to your image path</li>
+          <li>Change the caption text and date/location text</li>
+          <li>Commit the change — your new photo appears instantly</li>
         </ol>
       </div>
     </section>
@@ -136,23 +140,52 @@
       <h2>My photos.</h2>
 
       <div class="gallery-grid">
-        <!-- Add your own images like this:
-          <div class="gallery-item reveal" onclick="openLightbox('images/photo1.jpg')">
-            <img src="images/photo1.jpg" alt="Description">
+
+        <!-- EXAMPLE GALLERY ITEM — copy this block to add more photos -->
+        <div class="gallery-item reveal" onclick="openLightbox('images/photo1.jpg', 'Caption goes here', 'Location or date')">
+          <div class="photo-box">
+            <img src="images/photo1.jpg" alt="Caption goes here"
+                 onerror="this.parentElement.innerHTML='<div class=&quot;gallery-placeholder&quot;><span>📷</span><p>Add photo1.jpg</p></div>'">
           </div>
-        -->
-        <div class="gallery-item reveal">
-          <div class="gallery-placeholder"><span>📷</span><p>Add photo</p></div>
+          <div class="gallery-caption">
+            <p>Caption goes here</p>
+            <span>Location or date</span>
+          </div>
         </div>
-        <div class="gallery-item reveal">
-          <div class="gallery-placeholder"><span>📷</span><p>Add photo</p></div>
+
+        <div class="gallery-item reveal" onclick="openLightbox('images/photo2.jpg', 'Another caption', 'Location or date')">
+          <div class="photo-box">
+            <img src="images/photo2.jpg" alt="Another caption"
+                 onerror="this.parentElement.innerHTML='<div class=&quot;gallery-placeholder&quot;><span>📷</span><p>Add photo2.jpg</p></div>'">
+          </div>
+          <div class="gallery-caption">
+            <p>Another caption</p>
+            <span>Location or date</span>
+          </div>
         </div>
-        <div class="gallery-item reveal">
-          <div class="gallery-placeholder"><span>📷</span><p>Add photo</p></div>
+
+        <div class="gallery-item reveal" onclick="openLightbox('images/photo3.jpg', 'Another caption', 'Location or date')">
+          <div class="photo-box">
+            <img src="images/photo3.jpg" alt="Another caption"
+                 onerror="this.parentElement.innerHTML='<div class=&quot;gallery-placeholder&quot;><span>📷</span><p>Add photo3.jpg</p></div>'">
+          </div>
+          <div class="gallery-caption">
+            <p>Another caption</p>
+            <span>Location or date</span>
+          </div>
         </div>
-        <div class="gallery-item reveal">
-          <div class="gallery-placeholder"><span>📷</span><p>Add photo</p></div>
+
+        <div class="gallery-item reveal" onclick="openLightbox('images/photo4.jpg', 'Another caption', 'Location or date')">
+          <div class="photo-box">
+            <img src="images/photo4.jpg" alt="Another caption"
+                 onerror="this.parentElement.innerHTML='<div class=&quot;gallery-placeholder&quot;><span>📷</span><p>Add photo4.jpg</p></div>'">
+          </div>
+          <div class="gallery-caption">
+            <p>Another caption</p>
+            <span>Location or date</span>
+          </div>
         </div>
+
       </div>
     </section>
 
@@ -165,8 +198,9 @@
 
   <script src="main.js"></script>
   <script>
-    function openLightbox(src) {
+    function openLightbox(src, caption, meta) {
       document.getElementById('lb-img').src = src;
+      document.getElementById('lb-caption').innerHTML = caption + '<span>' + meta + '</span>';
       document.getElementById('lightbox').classList.add('open');
     }
     document.getElementById('lb-close').addEventListener('click', () => {
