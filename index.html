@@ -29,17 +29,23 @@
 
     <!-- HERO -->
     <div class="hero">
-      <div class="hero-tag">Open to opportunities</div>
-      <div class="hero-name-row">
-        <h1>Hi, I'm<br><em>Talha Zobair</em></h1>
-        <!-- AVATAR: swap the div below with <img src="images/me.jpg" class="hero-avatar" alt="Talha"> after uploading your photo -->
-        <img src="images/me.jpg" class="hero-avatar" alt="Talha">
-      </div>
-      <p class="hero-subtitle">A high school student who <span class="typed-text" id="typed"></span><span class="cursor">|</span></p>
-      <p class="hero-desc">Passionate about science, coding, literature, and music — building things that matter, one project at a time.</p>
-      <div class="hero-cta">
-        <a href="projects.html" class="btn btn-primary nav-link-anim">See my work</a>
-        <a href="#contact" class="btn btn-outline">Get in touch</a>
+      <div class="hero-flex">
+        <div class="hero-text">
+          <div class="hero-tag">Open to opportunities</div>
+          <h1>Hi, I'm<br><em>Talha Zobair</em></h1>
+          <p class="hero-subtitle">A high school student who <span class="typed-text" id="typed"></span><span class="cursor">|</span></p>
+          <p class="hero-desc">Passionate about science, coding, literature, and music — building things that matter, one project at a time.</p>
+          <div class="hero-cta">
+            <a href="projects.html" class="btn btn-primary">See my work</a>
+            <a href="#contact" class="btn btn-outline">Get in touch</a>
+          </div>
+        </div>
+
+        <!-- PHOTO: replace src below with your own image after uploading to /images -->
+        <div class="hero-photo-wrap">
+          <img src="images/me.jpg" class="hero-photo" alt="Talha Zobair" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="hero-photo-placeholder">TZ</div>
+        </div>
       </div>
     </div>
 
@@ -75,45 +81,27 @@
       <div class="skills-grid">
         <div class="skill-item reveal">
           <div class="skill-icon">🖥️</div>
-          <div>
-            <h4>Programming</h4>
-            <p>Python, HTML/CSS, JS basics</p>
-          </div>
+          <div><h4>Programming</h4><p>Python, HTML/CSS, JS basics</p></div>
         </div>
         <div class="skill-item reveal">
           <div class="skill-icon">📐</div>
-          <div>
-            <h4>Mathematics</h4>
-            <p>Problem solving, logic, proofs</p>
-          </div>
+          <div><h4>Mathematics</h4><p>Problem solving, logic, proofs</p></div>
         </div>
         <div class="skill-item reveal">
           <div class="skill-icon">✍️</div>
-          <div>
-            <h4>Writing</h4>
-            <p>Short fiction, essays, storytelling</p>
-          </div>
+          <div><h4>Writing</h4><p>Short fiction, essays, storytelling</p></div>
         </div>
         <div class="skill-item reveal">
           <div class="skill-icon">🔬</div>
-          <div>
-            <h4>Science</h4>
-            <p>Physics, biology, research mindset</p>
-          </div>
+          <div><h4>Science</h4><p>Physics, biology, research mindset</p></div>
         </div>
         <div class="skill-item reveal">
           <div class="skill-icon">🎵</div>
-          <div>
-            <h4>Music</h4>
-            <p>Listening, theory, appreciation</p>
-          </div>
+          <div><h4>Music</h4><p>Listening, theory, appreciation</p></div>
         </div>
         <div class="skill-item reveal">
           <div class="skill-icon">💡</div>
-          <div>
-            <h4>Problem Solving</h4>
-            <p>Creative thinking, curiosity</p>
-          </div>
+          <div><h4>Problem Solving</h4><p>Creative thinking, curiosity</p></div>
         </div>
       </div>
     </section>
@@ -150,7 +138,6 @@
 
   <script src="main.js"></script>
   <script>
-    // Typing animation
     const phrases = [
       "loves to write code.",
       "reads too many books.",
