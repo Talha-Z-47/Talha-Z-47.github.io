@@ -1,214 +1,51 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Gallery — Talha Zobair</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-  <style>
-    .gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 1.25rem; margin-top: 2rem;
-    }
-    .gallery-item {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      overflow: hidden;
-      cursor: pointer;
-      transition: transform 0.25s, border-color 0.2s;
-    }
-    .gallery-item:hover { transform: translateY(-3px); border-color: var(--accent); }
-    .gallery-item .photo-box { aspect-ratio: 1; overflow: hidden; }
-    .gallery-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .gallery-caption { padding: 0.7rem 0.9rem; }
-    .gallery-caption p { font-size: 0.85rem; color: var(--text); font-weight: 500; }
-    .gallery-caption span { font-size: 0.75rem; color: var(--muted); }
-
-    .gallery-placeholder {
-      width: 100%; height: 100%;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      background: var(--accent-light); gap: 8px;
-    }
-    .gallery-placeholder span { font-size: 1.5rem; }
-    .gallery-placeholder p { font-size: 0.75rem; color: var(--accent); font-weight: 500; }
-
-    /* LIGHTBOX */
-    .lightbox {
-      display: none; position: fixed; inset: 0;
-      background: rgba(0,0,0,0.88); z-index: 500;
-      align-items: center; justify-content: center; padding: 2rem;
-      flex-direction: column; gap: 1rem;
-    }
-    .lightbox.open { display: flex; }
-    .lightbox img { max-width: 90vw; max-height: 78vh; border-radius: var(--radius); }
-    .lightbox-caption { color: white; text-align: center; font-size: 0.95rem; max-width: 600px; }
-    .lightbox-caption span { color: #aaa; font-size: 0.8rem; display: block; margin-top: 4px; }
-    .lightbox-close {
-      position: absolute; top: 1.5rem; right: 1.5rem;
-      background: none; border: none; color: white;
-      font-size: 1.5rem; cursor: pointer; padding: 4px;
-    }
-
-    .profile-section {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 2rem;
-      margin-top: 2rem; display: flex;
-      align-items: center; gap: 1.5rem; flex-wrap: wrap;
-    }
-    .profile-initials {
-      width: 90px; height: 90px; border-radius: 50%;
-      background: var(--accent-light); flex-shrink: 0;
-      display: flex; align-items: center; justify-content: center;
-      font-family: 'DM Serif Display', serif;
-      font-size: 1.8rem; color: var(--accent);
-    }
-    .profile-section-text h3 { font-size: 1rem; font-weight: 500; margin-bottom: 4px; }
-    .profile-section-text p { font-size: 0.875rem; color: var(--muted); max-width: 380px; }
-    .how-to {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 1.5rem; margin-top: 1rem;
-    }
-    .how-to h4 { font-size: 0.8rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.75rem; }
-    .how-to ol { padding-left: 1.25rem; font-size: 0.875rem; color: var(--text); line-height: 2; }
-    .how-to code { background: var(--accent-light); color: var(--accent); padding: 1px 6px; border-radius: 4px; font-size: 0.8rem; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gallery · Talha Zobair</title>
+<meta name="description" content="Photos from IOAA 2026 in Hanoi, the national rounds and a Jamuna TV talk show.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✦</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500&family=Instrument+Sans:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script>try{document.documentElement.dataset.theme=localStorage.getItem('theme')||'dark'}catch(e){}</script>
 </head>
 <body>
-
-  <nav>
-    <a href="index.html" class="nav-logo">Talha Zobair</a>
-    <ul class="nav-links" id="nav-links">
+<div class="wrap">
+<nav>
+  <a href="index.html" class="logo">Talha Zobair</a>
+  <div class="nav-r">
+    <ul>
       <li><a href="index.html">Home</a></li>
-      <li><a href="projects.html">Projects</a></li>
       <li><a href="gallery.html" class="active">Gallery</a></li>
-      <li><a href="resume.html">Resume</a></li>
     </ul>
-    <div class="nav-right">
-      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">🌙</button>
-      <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
-  </nav>
-
-  <div class="page-transition" id="page-transition"></div>
-
-  <div class="lightbox" id="lightbox">
-    <button class="lightbox-close" id="lb-close">✕</button>
-    <img src="" id="lb-img" alt="Photo"/>
-    <div class="lightbox-caption" id="lb-caption"></div>
+    <button id="theme-toggle" aria-label="Switch theme"></button>
   </div>
+</nav>
 
-  <main class="fade-in">
+<div class="page-head">
+  <h1>Gallery</h1>
+  <p>Moments from the olympiad, the national rounds and the studio.</p>
+</div>
 
-    <div class="page-hero">
-      <p class="section-label">Gallery</p>
-      <h1>Photos &<br><em>moments.</em></h1>
-      <p>A visual snapshot of my world — places, projects, and things I find interesting.</p>
-    </div>
+<div class="grid">
+  <figure>
+    <div class="frame" data-file="images/ioaa-hanoi.jpg"><img src="images/ioaa-hanoi.jpg" alt="Talha at IOAA 2026 in Hanoi" onerror="this.remove()"></div>
+    <figcaption>IOAA 2026, Hanoi</figcaption>
+  </figure>
+  <figure>
+    <div class="frame" data-file="images/national-rounds.jpg"><img src="images/national-rounds.jpg" alt="Talha winning at the national rounds" onerror="this.remove()"></div>
+    <figcaption>Winning at the national rounds</figcaption>
+  </figure>
+  <figure>
+    <div class="frame" data-file="images/jamuna-tv.jpg"><img src="images/jamuna-tv.jpg" alt="Talha on a Jamuna TV talk show" onerror="this.remove()"></div>
+    <figcaption>Talk show on Jamuna TV</figcaption>
+  </figure>
+</div>
+</div>
 
-    <section style="border-top: 1px solid var(--border); padding-top: 3rem;">
-      <p class="section-label">Profile photo</p>
-      <div class="profile-section">
-        <!-- REPLACE with: <img src="images/me.jpg" class="profile-photo" alt="Talha"> -->
-        <div class="profile-initials">TZ</div>
-        <div class="profile-section-text">
-          <h3>Add your photo here</h3>
-          <p>Upload a photo of yourself and replace the initials placeholder. See instructions below.</p>
-        </div>
-      </div>
-
-      <div class="how-to reveal">
-        <h4>How to add gallery photos with captions</h4>
-        <ol>
-          <li>Upload your photo to the <code>images</code> folder, e.g. <code>images/trip1.jpg</code></li>
-          <li>Copy one of the <code>.gallery-item</code> blocks below in this file</li>
-          <li>Change the <code>src</code> to your image path</li>
-          <li>Change the caption text and date/location text</li>
-          <li>Commit the change — your new photo appears instantly</li>
-        </ol>
-      </div>
-    </section>
-
-    <section style="border-top: 1px solid var(--border); padding-top: 3rem;">
-      <p class="section-label">Gallery</p>
-      <h2>My photos.</h2>
-
-      <div class="gallery-grid">
-
-        <!-- EXAMPLE GALLERY ITEM — copy this block to add more photos -->
-        <div class="gallery-item reveal" onclick="openLightbox('images/photo1.jpg', 'Caption goes here', 'Location or date')">
-          <div class="photo-box">
-            <img src="images/photo1.jpg" alt="Caption goes here"
-                 onerror="this.parentElement.innerHTML='<div class=&quot;gallery-placeholder&quot;><span>📷</span><p>Add photo1.jpg</p></div>'">
-          </div>
-          <div class="gallery-caption">
-            <p>Caption goes here</p>
-            <span>Location or date</span>
-          </div>
-        </div>
-
-        <div class="gallery-item reveal" onclick="openLightbox('images/photo2.jpg', 'Another caption', 'Location or date')">
-          <div class="photo-box">
-            <img src="images/photo2.jpg" alt="Another caption"
-                 onerror="this.parentElement.innerHTML='<div class=&quot;gallery-placeholder&quot;><span>📷</span><p>Add photo2.jpg</p></div>'">
-          </div>
-          <div class="gallery-caption">
-            <p>Another caption</p>
-            <span>Location or date</span>
-          </div>
-        </div>
-
-        <div class="gallery-item reveal" onclick="openLightbox('images/photo3.jpg', 'Another caption', 'Location or date')">
-          <div class="photo-box">
-            <img src="images/photo3.jpg" alt="Another caption"
-                 onerror="this.parentElement.innerHTML='<div class=&quot;gallery-placeholder&quot;><span>📷</span><p>Add photo3.jpg</p></div>'">
-          </div>
-          <div class="gallery-caption">
-            <p>Another caption</p>
-            <span>Location or date</span>
-          </div>
-        </div>
-
-        <div class="gallery-item reveal" onclick="openLightbox('images/photo4.jpg', 'Another caption', 'Location or date')">
-          <div class="photo-box">
-            <img src="images/photo4.jpg" alt="Another caption"
-                 onerror="this.parentElement.innerHTML='<div class=&quot;gallery-placeholder&quot;><span>📷</span><p>Add photo4.jpg</p></div>'">
-          </div>
-          <div class="gallery-caption">
-            <p>Another caption</p>
-            <span>Location or date</span>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-  </main>
-
-  <footer>
-    <span>© 2025 Talha Zobair</span>
-    <span>Built with HTML & GitHub Pages</span>
-  </footer>
-
-  <script src="main.js"></script>
-  <script>
-    function openLightbox(src, caption, meta) {
-      document.getElementById('lb-img').src = src;
-      document.getElementById('lb-caption').innerHTML = caption + '<span>' + meta + '</span>';
-      document.getElementById('lightbox').classList.add('open');
-    }
-    document.getElementById('lb-close').addEventListener('click', () => {
-      document.getElementById('lightbox').classList.remove('open');
-    });
-    document.getElementById('lightbox').addEventListener('click', function(e) {
-      if (e.target === this) this.classList.remove('open');
-    });
-  </script>
+<footer><div class="wrap">© 2026 Talha Zobair</div></footer>
+<script src="main.js"></script>
 </body>
 </html>
