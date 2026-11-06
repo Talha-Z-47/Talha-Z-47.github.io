@@ -11,34 +11,57 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <style>
-    .gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 1.25rem; margin-top: 2rem;
-    }
-    .gallery-item {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      overflow: hidden;
-      cursor: pointer;
-      transition: transform 0.25s, border-color 0.2s;
-    }
-    .gallery-item:hover { transform: translateY(-3px); border-color: var(--accent); }
-    .gallery-item .photo-box { aspect-ratio: 1; overflow: hidden; }
-    .gallery-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .gallery-caption { padding: 0.7rem 0.9rem; }
-    .gallery-caption p { font-size: 0.85rem; color: var(--text); font-weight: 500; }
-    .gallery-caption span { font-size: 0.75rem; color: var(--muted); }
+    /* Wider layout for this page only (global rules cap pages at 760px) */
+    .page-hero.wide, .zig-section { max-width: 1120px; }
+    .page-hero.wide p { max-width: 560px; }
+    .zig-section { padding-top: 2rem; }
 
-    .gallery-placeholder {
-      width: 100%; height: 100%;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      background: var(--accent-light); gap: 8px;
+    /* ZIGZAG GALLERY */
+    .zig-list { display: flex; flex-direction: column; gap: 5.5rem; padding: 2.5rem 0 1rem; }
+    .zig {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr;
+      gap: 4rem;
+      align-items: center;
     }
-    .gallery-placeholder span { font-size: 1.5rem; }
-    .gallery-placeholder p { font-size: 0.75rem; color: var(--accent); font-weight: 500; }
+    .zig:nth-child(even) { grid-template-columns: 1fr 1.3fr; }
+    .zig:nth-child(even) .zig-photo { order: 2; }
+
+    .zig-photo {
+      position: relative; display: block; width: 100%;
+      aspect-ratio: 4 / 3; padding: 0; border: 1px solid var(--border);
+      border-radius: var(--radius); background: var(--accent-light);
+      overflow: hidden; cursor: zoom-in; font: inherit; color: inherit;
+      box-shadow: 14px 14px 0 var(--accent-light);
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.2s;
+    }
+    .zig:nth-child(even) .zig-photo { box-shadow: -14px 14px 0 var(--accent-light); }
+    .zig-photo:hover { transform: translateY(-4px); border-color: var(--accent); }
+    .zig-photo:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+    .zig-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    /* shown when the image file is not uploaded yet */
+    .zig-photo.is-missing { cursor: default; }
+    .zig-photo.is-missing img { display: none; }
+    .zig-photo.is-missing::after {
+      content: "📷  Add " attr(data-file);
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.85rem; font-weight: 500; color: var(--accent);
+    }
+
+    .zig-text { position: relative; }
+    .zig-num {
+      font-family: 'DM Serif Display', serif; font-size: 4.5rem; line-height: 1;
+      color: var(--accent-light); letter-spacing: -0.04em; margin-bottom: 0.25rem;
+      -webkit-text-stroke: 1px var(--accent);
+    }
+    .zig-text h3 {
+      font-family: 'DM Serif Display', serif; font-size: clamp(1.5rem, 2.6vw, 2rem);
+      line-height: 1.2; letter-spacing: -0.02em; color: var(--text); margin: 0.9rem 0 0.5rem;
+    }
+    .zig-meta { font-size: 0.95rem; color: var(--muted); }
+    .zig-text .tag { display: inline-block; }
 
     /* LIGHTBOX */
     .lightbox {
@@ -57,28 +80,13 @@
       font-size: 1.5rem; cursor: pointer; padding: 4px;
     }
 
-    .profile-section {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 2rem;
-      margin-top: 2rem; display: flex;
-      align-items: center; gap: 1.5rem; flex-wrap: wrap;
+    @media (max-width: 800px) {
+      .zig-list { gap: 3.5rem; }
+      .zig, .zig:nth-child(even) { grid-template-columns: 1fr; gap: 1.75rem; }
+      .zig:nth-child(even) .zig-photo { order: 0; }
+      .zig-photo, .zig:nth-child(even) .zig-photo { box-shadow: 8px 8px 0 var(--accent-light); }
+      .zig-num { font-size: 3.2rem; }
     }
-    .profile-initials {
-      width: 90px; height: 90px; border-radius: 50%;
-      background: var(--accent-light); flex-shrink: 0;
-      display: flex; align-items: center; justify-content: center;
-      font-family: 'DM Serif Display', serif;
-      font-size: 1.8rem; color: var(--accent);
-    }
-    .profile-section-text h3 { font-size: 1rem; font-weight: 500; margin-bottom: 4px; }
-    .profile-section-text p { font-size: 0.875rem; color: var(--muted); max-width: 380px; }
-    .how-to {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 1.5rem; margin-top: 1rem;
-    }
-    .how-to h4 { font-size: 0.8rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.75rem; }
-    .how-to ol { padding-left: 1.25rem; font-size: 0.875rem; color: var(--text); line-height: 2; }
-    .how-to code { background: var(--accent-light); color: var(--accent); padding: 1px 6px; border-radius: 4px; font-size: 0.8rem; }
   </style>
 <script>try{if(localStorage.getItem('theme')!=='light')document.documentElement.setAttribute('data-theme','dark')}catch(e){document.documentElement.setAttribute('data-theme','dark')}</script>
 </head>
@@ -103,93 +111,72 @@
   <div class="page-transition" id="page-transition"></div>
 
   <div class="lightbox" id="lightbox">
-    <button class="lightbox-close" id="lb-close">✕</button>
+    <button class="lightbox-close" id="lb-close" aria-label="Close photo">✕</button>
     <img src="" id="lb-img" alt="Photo"/>
     <div class="lightbox-caption" id="lb-caption"></div>
   </div>
 
   <main class="fade-in">
 
-    <div class="page-hero">
+    <div class="page-hero wide">
       <p class="section-label">Gallery</p>
-      <h1>Photos &<br><em>moments.</em></h1>
-      <p>A visual snapshot of my world — places, projects, and things I find interesting.</p>
+      <h1>Photos &amp;<br><em>moments.</em></h1>
+      <p>A visual snapshot of my world: places, projects, and things I find interesting.</p>
     </div>
 
-    <section style="border-top: 1px solid var(--border); padding-top: 3rem;">
-      <p class="section-label">Profile photo</p>
-      <div class="profile-section">
-        <!-- REPLACE with: <img src="images/me.jpg" class="profile-photo" alt="Talha"> -->
-        <div class="profile-initials">TZ</div>
-        <div class="profile-section-text">
-          <h3>Add your photo here</h3>
-          <p>Upload a photo of yourself and replace the initials placeholder. See instructions below.</p>
-        </div>
-      </div>
+    <section class="zig-section">
+      <div class="zig-list">
 
-      <div class="how-to reveal">
-        <h4>How to add gallery photos with captions</h4>
-        <ol>
-          <li>Upload your photo to the <code>images</code> folder, e.g. <code>images/trip1.jpg</code></li>
-          <li>Copy one of the <code>.gallery-item</code> blocks below in this file</li>
-          <li>Change the <code>src</code> to your image path</li>
-          <li>Change the caption text and date/location text</li>
-          <li>Commit the change — your new photo appears instantly</li>
-        </ol>
-      </div>
-    </section>
+        <article class="zig reveal">
+          <button class="zig-photo" type="button" data-file="images/ioaa-hanoi.jpg"
+                  data-src="images/ioaa-hanoi.jpg" data-caption="IOAA 2026" data-meta="Hanoi, Vietnam"
+                  aria-label="Open photo: IOAA 2026">
+            <img src="images/ioaa-hanoi.jpg" alt="IOAA 2026, Hanoi, Vietnam" loading="lazy">
+          </button>
+          <div class="zig-text">
+            <div class="zig-num">01</div>
+            <span class="tag">Competition</span>
+            <h3>IOAA 2026</h3>
+            <p class="zig-meta">Hanoi, Vietnam</p>
+          </div>
+        </article>
 
-    <section style="border-top: 1px solid var(--border); padding-top: 3rem;">
-      <p class="section-label">Gallery</p>
-      <h2>My photos.</h2>
+        <article class="zig reveal">
+          <button class="zig-photo" type="button" data-file="images/national-rounds.jpg"
+                  data-src="images/national-rounds.jpg" data-caption="Winning at the national rounds" data-meta="Bangladesh"
+                  aria-label="Open photo: Winning at the national rounds">
+            <img src="images/national-rounds.jpg" alt="Winning at the national rounds, Bangladesh" loading="lazy">
+          </button>
+          <div class="zig-text">
+            <div class="zig-num">02</div>
+            <span class="tag">Competition</span>
+            <h3>Winning at the national rounds</h3>
+            <p class="zig-meta">Bangladesh</p>
+          </div>
+        </article>
 
-      <div class="gallery-grid">
+        <article class="zig reveal">
+          <button class="zig-photo" type="button" data-file="images/jamuna-tv.jpg"
+                  data-src="images/jamuna-tv.jpg" data-caption="Talk show" data-meta="Jamuna TV"
+                  aria-label="Open photo: Talk show">
+            <img src="images/jamuna-tv.jpg" alt="Talk show, Jamuna TV" loading="lazy">
+          </button>
+          <div class="zig-text">
+            <div class="zig-num">03</div>
+            <span class="tag">Media</span>
+            <h3>Talk show</h3>
+            <p class="zig-meta">Jamuna TV</p>
+          </div>
+        </article>
 
-        <!-- EXAMPLE GALLERY ITEM — copy this block to add more photos -->
-        <div class="gallery-item reveal" onclick="openLightbox('images/ioaa-hanoi.jpg', 'IOAA 2026', 'Hanoi, Vietnam')">
-          <div class="photo-box">
-            <img src="images/ioaa-hanoi.jpg" alt="IOAA 2026"
-                 onerror="this.parentElement.innerHTML='<div class=&quot;gallery-placeholder&quot;><span>📷</span><p>Add ioaa-hanoi.jpg</p></div>'">
-          </div>
-          <div class="gallery-caption">
-            <p>IOAA 2026</p>
-            <span>Hanoi, Vietnam</span>
-          </div>
-        </div>
-
-        <div class="gallery-item reveal" onclick="openLightbox('images/national-rounds.jpg', 'Winning at the national rounds', 'Bangladesh')">
-          <div class="photo-box">
-            <img src="images/national-rounds.jpg" alt="Winning at the national rounds"
-                 onerror="this.parentElement.innerHTML='<div class=&quot;gallery-placeholder&quot;><span>📷</span><p>Add national-rounds.jpg</p></div>'">
-          </div>
-          <div class="gallery-caption">
-            <p>Winning at the national rounds</p>
-            <span>Bangladesh</span>
-          </div>
-        </div>
-
-        <div class="gallery-item reveal" onclick="openLightbox('images/jamuna-tv.jpg', 'Talk show', 'Jamuna TV')">
-          <div class="photo-box">
-            <img src="images/jamuna-tv.jpg" alt="Talk show"
-                 onerror="this.parentElement.innerHTML='<div class=&quot;gallery-placeholder&quot;><span>📷</span><p>Add jamuna-tv.jpg</p></div>'">
-          </div>
-          <div class="gallery-caption">
-            <p>Talk show</p>
-            <span>Jamuna TV</span>
-          </div>
-        </div>
-
-        <div class="gallery-item reveal" onclick="openLightbox('images/photo4.jpg', 'Another caption', 'Location or date')">
-          <div class="photo-box">
-            <img src="images/photo4.jpg" alt="Another caption"
-                 onerror="this.parentElement.innerHTML='<div class=&quot;gallery-placeholder&quot;><span>📷</span><p>Add photo4.jpg</p></div>'">
-          </div>
-          <div class="gallery-caption">
-            <p>Another caption</p>
-            <span>Location or date</span>
-          </div>
-        </div>
-
+        <!--
+          TO ADD A NEW PHOTO: copy one <article class="zig reveal"> block above,
+          paste it after the last one, then change:
+            1. the file name in data-file, data-src and src (upload the image to /images)
+            2. data-caption / data-meta / alt / the title and meta lines
+            3. the number (04, 05, ...) and the tag
+          The left/right zigzag order happens automatically.
+        -->
       </div>
     </section>
 
@@ -202,17 +189,35 @@
 
   <script src="main.js"></script>
   <script>
-    function openLightbox(src, caption, meta) {
-      document.getElementById('lb-img').src = src;
-      document.getElementById('lb-caption').innerHTML = caption + '<span>' + meta + '</span>';
-      document.getElementById('lightbox').classList.add('open');
-    }
-    document.getElementById('lb-close').addEventListener('click', () => {
-      document.getElementById('lightbox').classList.remove('open');
+    const lb = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lb-img');
+    const lbCap = document.getElementById('lb-caption');
+
+    // Mark photos whose file is not uploaded yet
+    document.querySelectorAll('.zig-photo img').forEach(img => {
+      const mark = () => img.closest('.zig-photo').classList.add('is-missing');
+      if (img.complete && img.naturalWidth === 0) mark();
+      img.addEventListener('error', mark);
     });
-    document.getElementById('lightbox').addEventListener('click', function(e) {
-      if (e.target === this) this.classList.remove('open');
+
+    // Open lightbox on click
+    document.querySelectorAll('.zig-photo').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (btn.classList.contains('is-missing')) return;
+        lbImg.src = btn.dataset.src;
+        lbImg.alt = btn.dataset.caption;
+        lbCap.textContent = btn.dataset.caption;
+        const meta = document.createElement('span');
+        meta.textContent = btn.dataset.meta;
+        lbCap.appendChild(meta);
+        lb.classList.add('open');
+      });
     });
+
+    const closeLb = () => lb.classList.remove('open');
+    document.getElementById('lb-close').addEventListener('click', closeLb);
+    lb.addEventListener('click', e => { if (e.target === lb) closeLb(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLb(); });
   </script>
 </body>
 </html>
