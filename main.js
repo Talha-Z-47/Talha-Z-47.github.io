@@ -50,3 +50,21 @@ const observer = new IntersectionObserver(entries => {
 }, { threshold: 0.1 });
 
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Copy email button (contact section)
+const copyBtn = document.getElementById('copy-email');
+if (copyBtn) {
+  copyBtn.addEventListener('click', async () => {
+    const email = copyBtn.dataset.email;
+    try {
+      await navigator.clipboard.writeText(email);
+    } catch (e) {
+      const t = document.createElement('textarea');
+      t.value = email; document.body.appendChild(t); t.select();
+      try { document.execCommand('copy'); } catch (_) {}
+      document.body.removeChild(t);
+    }
+    copyBtn.textContent = 'Copied!';
+    setTimeout(() => { copyBtn.textContent = 'Copy'; }, 1800);
+  });
+}
