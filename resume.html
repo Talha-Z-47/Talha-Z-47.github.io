@@ -11,6 +11,10 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 <script>try{if(localStorage.getItem('theme')!=='light')document.documentElement.setAttribute('data-theme','dark')}catch(e){document.documentElement.setAttribute('data-theme','dark')}</script>
+  <style>
+    .resume-item-header { flex-wrap: nowrap; gap: 1rem; }
+    .resume-item-header span { white-space: nowrap; }
+  </style>
 </head>
 <body>
 
@@ -34,11 +38,11 @@
 
     <div class="page-hero">
       <p class="section-label">Resume</p>
-      <h1>My background<br><em>& experience.</em></h1>
-      <p>A summary of my education, skills, and activities so far.</p>
-      <div style="margin-top:1.5rem;">
-        <!-- Link to a PDF version once you have one -->
-        <a href="#" class="btn btn-primary" style="opacity:0.5; cursor:default;">Download PDF (coming soon)</a>
+      <h1>My background<br><em>&amp; experience.</em></h1>
+      <p>A summary of my education, research, awards, and activities.</p>
+      <div style="margin-top:1.5rem; display:flex; align-items:center; gap:1rem; flex-wrap:wrap;">
+        <a href="cv.pdf" class="btn btn-primary" download>Download PDF</a>
+        <span style="font-size:0.8rem; color:var(--muted);">Last updated November 2026</span>
       </div>
     </div>
 
@@ -47,9 +51,13 @@
       <div class="profile-wrap">
         <div class="profile-initials">TZ</div>
         <div>
-          <h2 style="margin-bottom:0.25rem;">Talha Zobair</h2>
-          <p style="color:var(--muted); font-size:0.925rem;">High School Student · Bangladesh</p>
-          <p style="color:var(--muted); font-size:0.875rem; margin-top:0.4rem;">talha.zobair047@gmail.com · github.com/Talha-Z-47</p>
+          <h2 style="margin-bottom:0.25rem;">Md. Talha Zobair</h2>
+          <p style="color:var(--muted); font-size:0.925rem;">High School Student · Dhaka, Bangladesh</p>
+          <p style="color:var(--muted); font-size:0.875rem; margin-top:0.4rem;">
+            <a href="mailto:talha.zobair047@gmail.com" style="color:inherit;">talha.zobair047@gmail.com</a> ·
+            <a href="https://github.com/Talha-Z-47" target="_blank" rel="noopener" style="color:inherit;">GitHub</a> ·
+            <a href="https://www.linkedin.com/in/md-talha-zobair-120874341/" target="_blank" rel="noopener" style="color:inherit;">LinkedIn</a>
+          </p>
         </div>
       </div>
 
@@ -58,68 +66,147 @@
         <h3>Education</h3>
         <div class="resume-item">
           <div class="resume-item-header">
-            <strong>Your School Name</strong>
-            <span>2022 — Present</span>
+            <strong>Dhaka City College</strong>
+            <span>Expected graduation: 2027</span>
           </div>
-          <p>Secondary School Certificate (SSC) — Science Stream</p>
+          <p>Higher Secondary (Grade 12)</p>
           <ul>
-            <li>Subjects: Physics, Chemistry, Biology, Higher Math</li>
-            <li>GPA: X.XX / 5.00</li>
+            <li>Secondary School Certificate: GPA 5.00</li>
           </ul>
+        </div>
+      </div>
+
+      <!-- Academic interests -->
+      <div class="resume-section reveal">
+        <h3>Academic Interests</h3>
+        <div class="project-tags" style="margin-top:0;">
+          <span class="tag">Astrophysics</span>
+          <span class="tag">Physics</span>
+          <span class="tag">Atmospheric Science</span>
+        </div>
+      </div>
+
+      <!-- Research -->
+      <div class="resume-section reveal">
+        <h3>Research Experience</h3>
+        <p style="font-size:0.875rem; color:var(--muted); margin-bottom:0.75rem;">Mentored by:</p>
+        <div class="resume-item">
+          <div class="resume-item-header">
+            <strong>Dr. Jun Yang, PhD</strong>
+            
+          </div>
+          <p>Peking University, China</p>
+        </div>
+        <div class="resume-item">
+          <div class="resume-item-header">
+            <strong>Ms. Jingyu Wang</strong>
+            
+          </div>
+          <p>Graduate Research Assistant, University of Arizona</p>
+        </div>
+      </div>
+
+      <!-- Awards -->
+      <div class="resume-section reveal">
+        <h3>Awards &amp; Honors</h3>
+        <div class="resume-item">
+          <div class="resume-item-header">
+            <strong>Honorable Mention, 19th International Olympiad on Astronomy and Astrophysics (IOAA)</strong>
+            <span>2026</span>
+          </div>
+        </div>
+        <div class="resume-item">
+          <div class="resume-item-header">
+            <strong>Champion of the Champions; National Round Winner, Bangladesh Olympiad on Astronomy and Astrophysics</strong>
+            <span>2025, 2026</span>
+          </div>
+        </div>
+        <div class="resume-item">
+          <div class="resume-item-header">
+            <strong>National Finalist, Bangladesh Physics Olympiad</strong>
+            <span>2025</span>
+          </div>
+        </div>
+        <div class="resume-item">
+          <div class="resume-item-header">
+            <strong>National Round Finalist and GDT Trainee, National Earth-Science Olympiad</strong>
+            <span>2025</span>
+          </div>
+        </div>
+        <div class="resume-item">
+          <div class="resume-item-header">
+            <strong>Semi-Finalist, Climate Science Olympiad</strong>
+            <span>2024</span>
+          </div>
+        </div>
+        <div class="resume-item">
+          <div class="resume-item-header">
+            <strong>Open Semi-Finalist, NPMGHSDC National Debate Festival</strong>
+            <span>2023</span>
+          </div>
+        </div>
+        <div class="resume-item">
+          <div class="resume-item-header">
+            <strong>Regional Round Winner, Bangladesh Mathematics Olympiad</strong>
+            <span>2022</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Publications -->
+      <div class="resume-section reveal">
+        <h3>Publications &amp; Presentations</h3>
+        <div class="resume-item">
+          <div class="resume-item-header">
+            <strong><a href="https://www.academia.edu/136855651/How_Does_Calculus_Describe_Motion_A_way_to_measure_changes" target="_blank" rel="noopener" style="color:var(--accent);">How Does Calculus Describe Motion? A Way to Measure Changes</a></strong>
+            
+          </div>
+          <p>Academia.edu</p>
+        </div>
+        <div class="resume-item">
+          <div class="resume-item-header">
+            <strong><a href="https://www.primeopenaccess.com/peer-review/unveiling-u-gem-outbursts-light-curve-analysis-and-exploring-correlations-of-outburst-mechanism-246.html" target="_blank" rel="noopener" style="color:var(--accent);">Unveiling U Gem Outbursts: Light Curve Analysis and Exploring Correlations of Outburst Mechanism</a></strong>
+            
+          </div>
+          <p>Prime Open Access</p>
+        </div>
+      </div>
+
+      <!-- Extracurriculars -->
+      <div class="resume-section reveal">
+        <h3>Extracurricular Activities</h3>
+        <div class="resume-item">
+          <div class="resume-item-header">
+            <strong>Executive Member</strong>
+            
+          </div>
+          <p>Bangladesh Youth Neuroscience Society</p>
+        </div>
+        <div class="resume-item">
+          <div class="resume-item-header">
+            <strong>Sub-Executive</strong>
+            
+          </div>
+          <p>Crashlanders</p>
+        </div>
+        <div class="resume-item">
+          <div class="resume-item-header">
+            <strong>Debater</strong>
+            
+          </div>
+          <p>Ideal Debating Club</p>
         </div>
       </div>
 
       <!-- Skills -->
       <div class="resume-section reveal">
         <h3>Skills</h3>
-        <div class="resume-item">
-          <div class="resume-item-header"><strong>Programming</strong></div>
-          <p>Python (beginner–intermediate), HTML, CSS, JavaScript (basics)</p>
-        </div>
-        <div class="resume-item">
-          <div class="resume-item-header"><strong>Writing</strong></div>
-          <p>Short fiction, essays, structured argumentation, creative writing</p>
-        </div>
-        <div class="resume-item">
-          <div class="resume-item-header"><strong>Science & Math</strong></div>
-          <p>Strong foundation in physics, biology, and mathematics — analytical thinking</p>
-        </div>
-        <div class="resume-item">
-          <div class="resume-item-header"><strong>Tools</strong></div>
-          <p>Git & GitHub, VS Code, Google Workspace</p>
-        </div>
-      </div>
-
-      <!-- Activities -->
-      <div class="resume-section reveal">
-        <h3>Activities & Interests</h3>
-        <div class="resume-item">
-          <div class="resume-item-header">
-            <strong>Personal Projects</strong>
-            <span>2024 — Present</span>
-          </div>
-          <ul>
-            <li>Built a personal portfolio website using HTML/CSS/JS on GitHub Pages</li>
-            <li>Wrote a collection of short fiction stories — ongoing personal project</li>
-            <li>Created and shared open study notes for math and science topics</li>
-          </ul>
-        </div>
-        <div class="resume-item">
-          <div class="resume-item-header">
-            <strong>Music</strong>
-          </div>
-          <p>Active listener and learner — interested in music theory and composition</p>
-        </div>
-      </div>
-
-      <!-- Languages -->
-      <div class="resume-section reveal">
-        <h3>Languages</h3>
-        <div class="resume-item">
-          <div class="resume-item-header"><strong>Bengali</strong><span>Native</span></div>
-        </div>
-        <div class="resume-item">
-          <div class="resume-item-header"><strong>English</strong><span>Fluent</span></div>
+        <div class="project-tags" style="margin-top:0;">
+          <span class="tag">Python</span>
+          <span class="tag">C++</span>
+          <span class="tag">HTML</span>
+          <span class="tag">LaTeX</span>
+          <span class="tag">Data Analysis</span>
         </div>
       </div>
 

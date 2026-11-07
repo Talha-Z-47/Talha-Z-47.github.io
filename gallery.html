@@ -170,20 +170,18 @@
                     aria-label="Open photo: IOAA 2026: award moment">
               <img src="images/ioaa-award.jpg" alt="IOAA 2026 award moment, Hanoi">
             </button>
-           <div class="zig-thumbs">
-              
-              <button type="button" class="thumb" data-src="images/ioaa-group.jpg"
+            <div class="zig-thumbs">
+              <button type="button" class="thumb active" data-src="images/ioaa-group.jpg"
                       data-caption="IOAA 2026: cultural and artistic exchange program" data-meta="Hanoi, Vietnam" data-alt="Group photo of participants in front of the IOAA 2026 stage, Hanoi"
                       aria-label="Show photo: IOAA 2026: cultural and artistic exchange program">
                 <img src="images/ioaa-group.jpg" alt="">
               </button>
-             <button type="button" class="thumb" data-src="images/ioaa-team.jpg"
+              <button type="button" class="thumb" data-src="images/ioaa-team.jpg"
                       data-caption="IOAA 2026: team photo" data-meta="Hanoi, Vietnam" data-alt="Team photo in front of the IOAA sign at Phenikaa University, Hanoi" data-pos="center 30%"
                       aria-label="Show photo: IOAA 2026: team photo">
                 <img src="images/ioaa-team.jpg" alt="" style="object-position:center 30%">
               </button>
-                          
-              <button type="button" class="thumb active" data-src="images/ioaa-award.jpg"
+              <button type="button" class="thumb" data-src="images/ioaa-award.jpg"
                       data-caption="IOAA 2026: award moment" data-meta="Hanoi, Vietnam" data-alt="IOAA 2026 award moment, Hanoi"
                       aria-label="Show photo: IOAA 2026: award moment">
                 <img src="images/ioaa-award.jpg" alt="">
@@ -193,7 +191,6 @@
                       aria-label="Show photo: Khue Van Cac, Temple of Literature">
                 <img src="images/hanoi-temple.jpg" alt="" style="object-position:center 20%">
               </button>
-           
             </div>
           </div>
           <div class="zig-text">
@@ -243,7 +240,7 @@
 
           TO ADD MORE PHOTOS TO A SLOT: copy the IOAA block (01). Each photo is one
           <button class="thumb"> line in the thumbnails row. Add another one with its
-          own data-src / data-caption / data-meta. The first thumb is the main photo.
+          own data-src / data-caption / data-meta. The first thumb in the file is always the starting photo. To reorder, just move the thumb lines.
           Optional: data-pos="center 20%" sets which part of a tall photo stays visible.
         -->
       </div>
@@ -301,6 +298,9 @@
       const main = slot.querySelector('.zig-photo');
       const mainImg = main.querySelector('img');
       const thumbs = [...slot.querySelectorAll('.thumb')];
+
+      // the first thumbnail in the file decides the starting (big) photo
+      if (thumbs.length) selectThumb(slot, thumbs[0]);
 
       // main image missing -> placeholder (or jump to the next photo that exists)
       const mainMissing = () => {
