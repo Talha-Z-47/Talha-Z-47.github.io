@@ -25,7 +25,7 @@
       align-items: center;
     }
     .zig:nth-child(even) { grid-template-columns: 1fr 1.3fr; }
-    .zig:nth-child(even) .zig-photo { order: 2; }
+    .zig:nth-child(even) .zig-media { order: 2; }
 
     .zig-photo {
       position: relative; display: block; width: 100%;
@@ -38,7 +38,7 @@
     .zig:nth-child(even) .zig-photo { box-shadow: -14px 14px 0 var(--accent-light); }
     .zig-photo:hover { transform: translateY(-4px); border-color: var(--accent); }
     .zig-photo:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
-    .zig-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .zig-photo img { width: 100%; height: 100%; object-fit: cover; display: block; transition: opacity 0.25s; }
 
     /* shown when the image file is not uploaded yet */
     .zig-photo.is-missing { cursor: default; }
@@ -63,6 +63,40 @@
     .zig-meta { font-size: 0.95rem; color: var(--muted); }
     .zig-text .tag { display: inline-block; }
 
+    .zig-media { min-width: 0; }
+
+    /* thumbnails for slots with several photos */
+    .zig-thumbs { display: flex; gap: 0.6rem; margin-top: 1.75rem; flex-wrap: wrap; }
+    .thumb {
+      position: relative; width: 84px; aspect-ratio: 4 / 3; padding: 0;
+      border: 1px solid var(--border); border-radius: 8px; overflow: hidden;
+      background: var(--accent-light); cursor: pointer; opacity: 0.6;
+      transition: opacity 0.2s, border-color 0.2s, transform 0.2s;
+    }
+    .thumb:hover { opacity: 1; transform: translateY(-2px); }
+    .thumb.active { opacity: 1; border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+    .thumb:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .thumb.is-missing img { display: none; }
+    .thumb.is-missing::after {
+      content: "📷"; position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center; font-size: 1rem;
+    }
+    .zig-count { margin-top: 0.9rem; font-size: 0.8rem; color: var(--muted); }
+
+    /* LIGHTBOX NAV */
+    .lightbox-nav {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      width: 44px; height: 44px; border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.25); background: rgba(0,0,0,0.45);
+      color: white; font-size: 1.4rem; line-height: 1; cursor: pointer;
+    }
+    .lightbox-nav:hover { background: rgba(255,255,255,0.15); }
+    .lightbox-prev { left: 1.25rem; }
+    .lightbox-next { right: 1.25rem; }
+    .lightbox-nav[hidden] { display: none; }
+    .lightbox-count { color: #aaa; font-size: 0.78rem; margin-top: 6px; }
+
     /* LIGHTBOX */
     .lightbox {
       display: none; position: fixed; inset: 0;
@@ -83,7 +117,7 @@
     @media (max-width: 800px) {
       .zig-list { gap: 3.5rem; }
       .zig, .zig:nth-child(even) { grid-template-columns: 1fr; gap: 1.75rem; }
-      .zig:nth-child(even) .zig-photo { order: 0; }
+      .zig:nth-child(even) .zig-media { order: 0; }
       .zig-photo, .zig:nth-child(even) .zig-photo { box-shadow: 8px 8px 0 var(--accent-light); }
       .zig-num { font-size: 3.2rem; }
     }
@@ -112,6 +146,8 @@
 
   <div class="lightbox" id="lightbox">
     <button class="lightbox-close" id="lb-close" aria-label="Close photo">✕</button>
+    <button class="lightbox-nav lightbox-prev" id="lb-prev" aria-label="Previous photo" hidden>&#8249;</button>
+    <button class="lightbox-nav lightbox-next" id="lb-next" aria-label="Next photo" hidden>&#8250;</button>
     <img src="" id="lb-img" alt="Photo"/>
     <div class="lightbox-caption" id="lb-caption"></div>
   </div>
@@ -128,11 +164,35 @@
       <div class="zig-list">
 
         <article class="zig reveal">
-          <button class="zig-photo" type="button" data-file="images/ioaa-hanoi.jpg"
-                  data-src="images/ioaa-hanoi.jpg" data-caption="IOAA 2026" data-meta="Hanoi, Vietnam"
-                  aria-label="Open photo: IOAA 2026">
-            <img src="images/ioaa-hanoi.jpg" alt="IOAA 2026, Hanoi, Vietnam" loading="lazy">
-          </button>
+          <div class="zig-media">
+            <button class="zig-photo" type="button" data-file="images/ioaa-award.jpg"
+                    data-src="images/ioaa-award.jpg" data-caption="IOAA 2026: award moment" data-meta="Hanoi, Vietnam"
+                    aria-label="Open photo: IOAA 2026: award moment">
+              <img src="images/ioaa-award.jpg" alt="IOAA 2026 award moment, Hanoi">
+            </button>
+            <div class="zig-thumbs">
+              <button type="button" class="thumb active" data-src="images/ioaa-award.jpg"
+                      data-caption="IOAA 2026: award moment" data-meta="Hanoi, Vietnam" data-alt="IOAA 2026 award moment, Hanoi"
+                      aria-label="Show photo: IOAA 2026: award moment">
+                <img src="images/ioaa-award.jpg" alt="">
+              </button>
+              <button type="button" class="thumb" data-src="images/ioaa-team.jpg"
+                      data-caption="IOAA 2026: team photo" data-meta="Hanoi, Vietnam" data-alt="Team photo in front of the IOAA sign at Phenikaa University, Hanoi" data-pos="center 30%"
+                      aria-label="Show photo: IOAA 2026: team photo">
+                <img src="images/ioaa-team.jpg" alt="" style="object-position:center 30%">
+              </button>
+              <button type="button" class="thumb" data-src="images/ioaa-group.jpg"
+                      data-caption="IOAA 2026: cultural and artistic exchange program" data-meta="Hanoi, Vietnam" data-alt="Group photo of participants in front of the IOAA 2026 stage, Hanoi"
+                      aria-label="Show photo: IOAA 2026: cultural and artistic exchange program">
+                <img src="images/ioaa-group.jpg" alt="">
+              </button>
+              <button type="button" class="thumb" data-src="images/hanoi-temple.jpg"
+                      data-caption="Khue Van Cac, Temple of Literature" data-meta="Hanoi, Vietnam" data-alt="Khue Van Cac pavilion at the Temple of Literature in Hanoi" data-pos="center 20%"
+                      aria-label="Show photo: Khue Van Cac, Temple of Literature">
+                <img src="images/hanoi-temple.jpg" alt="" style="object-position:center 20%">
+              </button>
+            </div>
+          </div>
           <div class="zig-text">
             <div class="zig-num">01</div>
             <span class="tag">Competition</span>
@@ -142,11 +202,13 @@
         </article>
 
         <article class="zig reveal">
-          <button class="zig-photo" type="button" data-file="images/national-rounds.jpg"
-                  data-src="images/national-rounds.jpg" data-caption="Winning at the national rounds" data-meta="Bangladesh"
-                  aria-label="Open photo: Winning at the national rounds">
-            <img src="images/national-rounds.jpg" alt="Winning at the national rounds, Bangladesh" loading="lazy">
-          </button>
+          <div class="zig-media">
+            <button class="zig-photo" type="button" data-file="images/national-rounds.jpg"
+                    data-src="images/national-rounds.jpg" data-caption="Winning at the national rounds" data-meta="Bangladesh"
+                    aria-label="Open photo: Winning at the national rounds">
+              <img src="images/national-rounds.jpg" alt="Winning at the national rounds">
+            </button>
+          </div>
           <div class="zig-text">
             <div class="zig-num">02</div>
             <span class="tag">Competition</span>
@@ -156,11 +218,13 @@
         </article>
 
         <article class="zig reveal">
-          <button class="zig-photo" type="button" data-file="images/jamuna-tv.jpg"
-                  data-src="images/jamuna-tv.jpg" data-caption="Talk show" data-meta="Jamuna TV"
-                  aria-label="Open photo: Talk show">
-            <img src="images/jamuna-tv.jpg" alt="Talk show, Jamuna TV" loading="lazy">
-          </button>
+          <div class="zig-media">
+            <button class="zig-photo" type="button" data-file="images/jamuna-tv.jpg"
+                    data-src="images/jamuna-tv.jpg" data-caption="Talk show" data-meta="Jamuna TV"
+                    aria-label="Open photo: Talk show">
+              <img src="images/jamuna-tv.jpg" alt="Talk show at Jamuna TV">
+            </button>
+          </div>
           <div class="zig-text">
             <div class="zig-num">03</div>
             <span class="tag">Media</span>
@@ -170,12 +234,14 @@
         </article>
 
         <!--
-          TO ADD A NEW PHOTO: copy one <article class="zig reveal"> block above,
-          paste it after the last one, then change:
-            1. the file name in data-file, data-src and src (upload the image to /images)
-            2. data-caption / data-meta / alt / the title and meta lines
-            3. the number (04, 05, ...) and the tag
-          The left/right zigzag order happens automatically.
+          TO ADD A NEW SLOT: copy one single-photo <article class="zig reveal"> block (e.g. 02),
+          paste it after the last one, then change the file name (data-file, data-src, src),
+          the caption/meta/alt, the number and the tag. Left/right order is automatic.
+
+          TO ADD MORE PHOTOS TO A SLOT: copy the IOAA block (01). Each photo is one
+          <button class="thumb"> line in the thumbnails row. Add another one with its
+          own data-src / data-caption / data-meta. The first thumb is the main photo.
+          Optional: data-pos="center 20%" sets which part of a tall photo stays visible.
         -->
       </div>
     </section>
@@ -192,32 +258,120 @@
     const lb = document.getElementById('lightbox');
     const lbImg = document.getElementById('lb-img');
     const lbCap = document.getElementById('lb-caption');
+    const lbPrev = document.getElementById('lb-prev');
+    const lbNext = document.getElementById('lb-next');
 
-    // Mark photos whose file is not uploaded yet
-    document.querySelectorAll('.zig-photo img').forEach(img => {
-      const mark = () => img.closest('.zig-photo').classList.add('is-missing');
-      if (img.complete && img.naturalWidth === 0) mark();
-      img.addEventListener('error', mark);
-    });
+    let items = [], idx = 0;
 
-    // Open lightbox on click
-    document.querySelectorAll('.zig-photo').forEach(btn => {
-      btn.addEventListener('click', () => {
-        if (btn.classList.contains('is-missing')) return;
-        lbImg.src = btn.dataset.src;
-        lbImg.alt = btn.dataset.caption;
-        lbCap.textContent = btn.dataset.caption;
-        const meta = document.createElement('span');
-        meta.textContent = btn.dataset.meta;
-        lbCap.appendChild(meta);
+    // photos of a slot that actually exist
+    function slotPhotos(slot) {
+      const thumbs = [...slot.querySelectorAll('.thumb')];
+      if (thumbs.length) {
+        return thumbs.filter(t => !t.classList.contains('is-missing'))
+          .map(t => ({ src: t.dataset.src, caption: t.dataset.caption, meta: t.dataset.meta, alt: t.dataset.alt || t.dataset.caption }));
+      }
+      const m = slot.querySelector('.zig-photo');
+      return m.classList.contains('is-missing') ? [] :
+        [{ src: m.dataset.src, caption: m.dataset.caption, meta: m.dataset.meta, alt: m.dataset.caption }];
+    }
+
+    // show a thumbnail's photo as the slot's main photo
+    function selectThumb(slot, thumb) {
+      const main = slot.querySelector('.zig-photo');
+      const img = main.querySelector('img');
+      main.dataset.src = thumb.dataset.src;
+      main.dataset.file = thumb.dataset.src;
+      main.dataset.caption = thumb.dataset.caption;
+      main.dataset.meta = thumb.dataset.meta;
+      main.setAttribute('aria-label', 'Open photo: ' + thumb.dataset.caption);
+      img.style.objectPosition = thumb.dataset.pos || '';
+      img.alt = thumb.dataset.alt || thumb.dataset.caption;
+      main.classList.remove('is-missing');
+      img.src = thumb.dataset.src;
+      slot.querySelectorAll('.thumb').forEach(t => {
+        t.classList.toggle('active', t === thumb);
+        t.setAttribute('aria-current', t === thumb ? 'true' : 'false');
+      });
+    }
+
+    document.querySelectorAll('.zig').forEach(slot => {
+      const main = slot.querySelector('.zig-photo');
+      const mainImg = main.querySelector('img');
+      const thumbs = [...slot.querySelectorAll('.thumb')];
+
+      // main image missing -> placeholder (or jump to the next photo that exists)
+      const mainMissing = () => {
+        const cur = thumbs.find(t => t.classList.contains('active'));
+        const next = thumbs.find(t => t !== cur && !t.classList.contains('is-missing'));
+        if (cur) cur.classList.add('is-missing');
+        if (next && cur) selectThumb(slot, next); else main.classList.add('is-missing');
+      };
+      mainImg.addEventListener('error', mainMissing);
+      mainImg.addEventListener('load', () => main.classList.remove('is-missing'));
+      if (mainImg.complete && mainImg.naturalWidth === 0) mainMissing();
+
+      thumbs.forEach(t => {
+        const ti = t.querySelector('img');
+        const mark = () => { if (t.classList.contains('active')) return; t.classList.add('is-missing'); };
+        ti.addEventListener('error', mark);
+        if (ti.complete && ti.naturalWidth === 0) mark();
+        t.addEventListener('click', () => { if (!t.classList.contains('is-missing')) selectThumb(slot, t); });
+      });
+
+      // a slot with several photos shows how many there are
+      if (thumbs.length > 1) {
+        const c = document.createElement('p');
+        c.className = 'zig-count';
+        c.textContent = thumbs.length + ' photos. Click the big photo to browse.';
+        slot.querySelector('.zig-thumbs').after(c);
+      }
+
+      main.addEventListener('click', () => {
+        if (main.classList.contains('is-missing')) return;
+        items = slotPhotos(slot);
+        idx = Math.max(0, items.findIndex(p => p.src === main.dataset.src));
+        showLb();
         lb.classList.add('open');
       });
     });
 
+    function showLb() {
+      const p = items[idx];
+      lbImg.src = p.src;
+      lbImg.alt = p.alt;
+      lbCap.textContent = p.caption;
+      const meta = document.createElement('span');
+      meta.textContent = p.meta;
+      lbCap.appendChild(meta);
+      if (items.length > 1) {
+        const n = document.createElement('div');
+        n.className = 'lightbox-count';
+        n.textContent = (idx + 1) + ' / ' + items.length;
+        lbCap.appendChild(n);
+      }
+      lbPrev.hidden = lbNext.hidden = items.length < 2;
+    }
+    const step = d => { if (items.length > 1) { idx = (idx + d + items.length) % items.length; showLb(); } };
     const closeLb = () => lb.classList.remove('open');
+
+    lbPrev.addEventListener('click', e => { e.stopPropagation(); step(-1); });
+    lbNext.addEventListener('click', e => { e.stopPropagation(); step(1); });
     document.getElementById('lb-close').addEventListener('click', closeLb);
     lb.addEventListener('click', e => { if (e.target === lb) closeLb(); });
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLb(); });
+    document.addEventListener('keydown', e => {
+      if (!lb.classList.contains('open')) return;
+      if (e.key === 'Escape') closeLb();
+      if (e.key === 'ArrowLeft') step(-1);
+      if (e.key === 'ArrowRight') step(1);
+    });
+    // swipe on phones
+    let tx = null;
+    lb.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
+    lb.addEventListener('touchend', e => {
+      if (tx === null) return;
+      const dx = e.changedTouches[0].clientX - tx; tx = null;
+      if (Math.abs(dx) > 50) step(dx < 0 ? 1 : -1);
+    });
   </script>
 </body>
 </html>
